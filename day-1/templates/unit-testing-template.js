@@ -44,11 +44,11 @@ function isEven(number) {
 }
 
 /**
- * Capitalizes the first letter of a string.
+ * Capitalises the first letter of a string.
  * @param {string} str - The input string.
- * @returns {string} The string with the first letter capitalized.
+ * @returns {string} The string with the first letter capitalised.
  */
-function capitalize(str) {
+function capitalise(str) {
   if (typeof str !== 'string' || str.length === 0) {
     return ''; // Handle non-string or empty string input
   }
@@ -71,7 +71,7 @@ function reverseString(str) {
 module.exports = {
   add,
   isEven,
-  capitalize,
+  capitalise,
   reverseString
 };
 
@@ -79,7 +79,7 @@ module.exports = {
 // This file is where apprentices will write their unit tests.
 // It starts with a basic structure and an example test.
 
-const { add, isEven, capitalize, reverseString } = require('./functions');
+const { add, isEven, capitalise, reverseString } = require('./functions');
 
 // --- Example Test (for demonstration) ---
 describe('add function', () => {
@@ -105,12 +105,12 @@ describe('isEven function', () => {
   // - Test error handling for non-numeric inputs
 });
 
-describe('capitalize function', () => {
-  // Apprentices: Write tests for the capitalize function here!
+describe('capitalise function', () => {
+  // Apprentices: Write tests for the capitalise function here!
   // Example ideas:
   // - Test with a regular word
   // - Test with an empty string
-  // - Test with a string that's already capitalized
+  // - Test with a string that's already capitalised
   // - Test with a string that starts with a number or symbol (edge case)
 });
 
