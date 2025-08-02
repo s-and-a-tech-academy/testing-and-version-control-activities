@@ -83,7 +83,7 @@ const { add, isEven, capitalise, reverseString } = require('./functions');
 
 // --- Example Test (for demonstration) ---
 describe('add function', () => {
-  test('should correctly add two positive numbers', () => {
+  it('should correctly add two positive numbers', () => {
     expect(add(1, 2)).toBe(3);
   });
 
