@@ -1,35 +1,29 @@
-// --- File: userManager.test.js (Completed for Integration Test Example) ---
-// This file contains comprehensive tests for the user manager system,
-// including unit tests, integration tests, and demonstrations of mocking.
-
-// Import the functions we need to test
-const { registerUser, loginUser, getUserCount, clearUsers } = require('./userManager');
+// --- File: userManager.test.js ---
+const { registerUser, loginUser, getUserCount, clearUsers, getUser } = require('./userManager');
 
 // Import the module containing the function we want to mock.
-// Jest will automatically hoist jest.mock() calls to the top.
-// This tells Jest to replace the actual 'sendWelcomeEmail' function
-// from 'userManager' with a mock version.
 jest.mock('./sendWelcomeEmail', () => ({
   sendWelcomeEmail: jest.fn(),
 }));
 
-// After mocking, we can now access the mocked function
-// We need to import it specifically to interact with it as a mock
 const { sendWelcomeEmail } = require('./sendWelcomeEmail');
 
-
-// Use Jest's beforeEach to ensure the database is clear and mocks are reset before each test
 beforeEach(() => {
   clearUsers();
   // Clear all mock calls and reset mock implementation before each test
+  // This is crucial for mocking and stubbing, as it ensures each test starts fresh.
   sendWelcomeEmail.mockClear();
 });
 
 describe('registerUser function with email notification', () => {
+
   test('should successfully register a new user and send a welcome email', () => {
     // Arrange
     const username = "newuser";
     const password = "securepassword";
+    
+    // Stub the function to return a successful result
+    sendWelcomeEmail.mockReturnValue({ success: true, message: "Email sent." });
 
     // Act
     const registrationSuccess = registerUser(username, password);
@@ -37,56 +31,61 @@ describe('registerUser function with email notification', () => {
     // Assert
     expect(registrationSuccess).toBe(true);
     expect(getUserCount()).toBe(1);
-    // Verify that sendWelcomeEmail was called exactly once
     expect(sendWelcomeEmail).toHaveBeenCalledTimes(1);
-    // Verify that sendWelcomeEmail was called with the correct username
     expect(sendWelcomeEmail).toHaveBeenCalledWith(username);
+    
+    // Assert that the emailFailed property was NOT added
+    const user = getUser(username);
+    expect(user.emailFailed).toBeUndefined();
   });
 
   test('should not send a welcome email if registration fails (user already exists)', () => {
     // Arrange
     registerUser("existinguser", "pass"); // Register once
     sendWelcomeEmail.mockClear(); // Clear initial call for this specific test
-
+    
     // Act
     const registrationSuccess = registerUser("existinguser", "pass"); // Attempt to register again
 
     // Assert
-    expect(registrationSuccess).toBe(false); // Registration should fail
-    expect(getUserCount()).toBe(1); // User count should remain 1
-    // Verify that sendWelcomeEmail was NOT called again
-    expect(sendWelcomeEmail).not.toHaveBeenCalled();
+    // expect(registrationSuccess).toBe(); // Registration should fail - expect to be?? 
+    // expect(getUserCount()).toBe(); // User count should be ?? 
+    // // Verify that sendWelcomeEmail was NOT called again
+    // expect(sendWelcomeEmail).not.toHaveBeenCalled();
   });
 
   test('should not send email if username is empty', () => {
-    // Arrange & Act (expecting an error to be thrown)
-    expect(() => registerUser("", "pass")).toThrow("Username and password cannot be empty.");
+    // // Arrange & Act (expecting an error to be thrown)
+    // expect(() => registerUser("", "pass")).toThrow("UPDATE THIS ERROR MESSAGE");
 
-    // Assert that the email function was not called
-    expect(sendWelcomeEmail).not.toHaveBeenCalled();
+    // // Assert that the email function was not called
+    // expect(sendWelcomeEmail); //COMPLETE THIS LINE
   });
 
-  // NEW STUBBING EXAMPLE
-  test('should use a stub to return a predefined value from the email service', () => {
-    // Arrange: We'll pretend our email service is having issues
-    const errorMessage = "Email service is temporarily unavailable.";
-    // Use `mockReturnValue` to stub the function with a specific return value
-    sendWelcomeEmail.mockReturnValue(errorMessage);
-
+  // --- NEW STUBBING TEST CASE ---
+  test('should mark user account if email service returns an error', () => {
+    // Arrange
     const username = "testuser";
     const password = "password123";
+    
+    // Use `mockReturnValue` to stub the function with a specific return value.
+    // This is the core of the stubbing example. We are forcing the dependency
+    // to behave in a specific way that we want to test.
+    sendWelcomeEmail.mockReturnValue({ success: false, error: "Service unavailable." });
 
     // Act
     registerUser(username, password);
 
-    // Assert
-    // When we check the return value of the mocked function, it's the stubbed value.
-    // The test `registerUser` calls `sendWelcomeEmail`, but doesn't use the return value.
-    // So this test primarily demonstrates the setup of a stub.
-    const resultFromMockedFunction = sendWelcomeEmail();
-    expect(resultFromMockedFunction).toBe(errorMessage);
-    // You could also imagine a different version of `registerUser`
-    // that uses the return value and then you can test that logic.
+    // // Assert
+    // // Verify the user was still created
+    // // --- YOUR CODE HERE ---
+    
+    // // Verify the email function was called, even though it "failed"
+    // // --- YOUR CODE HERE ---
+    
+    // // Now, we assert that our new logic in `registerUser`
+    // // correctly reacted to the stubbed return value.
+    // const user = getUser(username);
+    // expect().toBe();
   });
 });
-
