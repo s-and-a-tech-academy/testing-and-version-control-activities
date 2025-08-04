@@ -17,7 +17,7 @@ beforeEach(() => {
 
 describe('registerUser function with email notification', () => {
 
-  test('should successfully register a new user and send a welcome email', () => {
+  it('should successfully register a new user and send a welcome email', () => {
     // Arrange
     const username = "newuser";
     const password = "securepassword";
@@ -39,10 +39,10 @@ describe('registerUser function with email notification', () => {
     expect(user.emailFailed).toBeUndefined();
   });
 
-  test('should not send a welcome email if registration fails (user already exists)', () => {
+  it('should not send a welcome email if registration fails (user already exists)', () => {
     // Arrange
     registerUser("existinguser", "pass"); // Register once
-    sendWelcomeEmail.mockClear(); // Clear initial call for this specific test
+    sendWelcomeEmail.mockClear(); // Clear initial call for this specific it
     
     // Act
     const registrationSuccess = registerUser("existinguser", "pass"); // Attempt to register again
@@ -54,7 +54,7 @@ describe('registerUser function with email notification', () => {
     // expect(sendWelcomeEmail).not.toHaveBeenCalled();
   });
 
-  test('should not send email if username is empty', () => {
+  it('should not send email if username is empty', () => {
     // // Arrange & Act (expecting an error to be thrown)
     // expect(() => registerUser("", "pass")).toThrow("UPDATE THIS ERROR MESSAGE");
 
@@ -63,7 +63,7 @@ describe('registerUser function with email notification', () => {
   });
 
   // --- NEW STUBBING TEST CASE ---
-  test('should mark user account if email service returns an error', () => {
+  it('should mark user account if email service returns an error', () => {
     // Arrange
     const username = "testuser";
     const password = "password123";

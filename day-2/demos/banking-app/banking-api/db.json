@@ -1,0 +1,30 @@
+{
+  "users": {
+    "FernCorc": "Anyoldthing",
+    "LilyDg": "woofwoof",
+    "bob": "123",
+    "lily": "do",
+    "Fern": "bob",
+    "testUser": "pass123"
+  },
+  "accounts": {
+    "FernCorc": {
+      "balance": 1103
+    },
+    "LilyDg": {
+      "balance": 950
+    },
+    "bob": {
+      "balance": 947
+    },
+    "lily": {
+      "balance": 1000
+    },
+    "Fern": {
+      "balance": 1000
+    },
+    "testUser": {
+      "balance": 1000
+    }
+  }
+}
