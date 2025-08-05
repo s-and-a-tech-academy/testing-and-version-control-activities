@@ -1,7 +1,7 @@
 {
-  "name": "unit-testing-practice",
+  "name": "tdd",
   "version": "1.0.0",
-  "main": "functions.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest --coverage"
   },
