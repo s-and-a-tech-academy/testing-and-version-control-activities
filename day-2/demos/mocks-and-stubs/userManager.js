@@ -14,7 +14,7 @@ const _usersDb = {};
  */
 function registerUser(username, password) {
   if (!username || !password) {
-    throw new Error("Username and password cannot be empty.");
+    throw new Error("Username or password cannot be empty.");
   }
   if (_usersDb[username]) {
     return false; // User already exists

@@ -41,25 +41,25 @@ describe('registerUser function with email notification', () => {
 
   it('should not send a welcome email if registration fails (user already exists)', () => {
     // Arrange
-    registerUser("existinguser", "pass"); // Register once
+    registerUser("existingUser", "pass"); // Register once
     sendWelcomeEmail.mockClear(); // Clear initial call for this specific it
     
     // Act
-    const registrationSuccess = registerUser("existinguser", "pass"); // Attempt to register again
+    const registrationSuccess = registerUser("existingUser", "pass"); // Attempt to register again
 
     // Assert
-    // expect(registrationSuccess).toBe(); // Registration should fail - expect to be?? 
-    // expect(getUserCount()).toBe(); // User count should be ?? 
-    // // Verify that sendWelcomeEmail was NOT called again
-    // expect(sendWelcomeEmail).not.toHaveBeenCalled();
+    expect(registrationSuccess).toBe(false); // Registration should fail - expect to be?? 
+    expect(getUserCount()).toBe(1); // User count should be ?? 
+    // Verify that sendWelcomeEmail was NOT called again
+    expect(sendWelcomeEmail).not.toHaveBeenCalled();
   });
 
   it('should not send email if username is empty', () => {
-    // // Arrange & Act (expecting an error to be thrown)
-    // expect(() => registerUser("", "pass")).toThrow("UPDATE THIS ERROR MESSAGE");
+    // Arrange & Act (expecting an error to be thrown)
+    expect(() => registerUser("", "pass")).toThrow("Username or password cannot be empty.");
 
-    // // Assert that the email function was not called
-    // expect(sendWelcomeEmail); //COMPLETE THIS LINE
+    // Assert that the email function was not called
+    expect(sendWelcomeEmail).not.toHaveBeenCalled(); //COMPLETE THIS LINE
   });
 
   // --- NEW STUBBING TEST CASE ---
@@ -76,16 +76,19 @@ describe('registerUser function with email notification', () => {
     // Act
     registerUser(username, password);
 
-    // // Assert
-    // // Verify the user was still created
-    // // --- YOUR CODE HERE ---
+    // Assert
+    // Verify the user was still created
+    // --- YOUR CODE HERE ---
+    expect(getUserCount()).toBe(1);
+
     
-    // // Verify the email function was called, even though it "failed"
-    // // --- YOUR CODE HERE ---
+    // Verify the email function was called, even though it "failed"
+    // --- YOUR CODE HERE ---
+    expect(sendWelcomeEmail).toHaveBeenCalled(); 
     
-    // // Now, we assert that our new logic in `registerUser`
-    // // correctly reacted to the stubbed return value.
-    // const user = getUser(username);
-    // expect().toBe();
+    // Now, we assert that our new logic in `registerUser`
+    // correctly reacted to the stubbed return value.
+    const user = getUser(username);
+    expect(user.emailFailed).toBe(true);
   });
 });

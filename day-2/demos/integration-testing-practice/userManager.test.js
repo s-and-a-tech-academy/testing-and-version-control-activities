@@ -1,6 +1,5 @@
 // --- File: userManager.test.js ---
 // This file is where apprentices will write tests for the user manager system.
-
 const { registerUser, loginUser, getUserCount, clearUsers } = require('./userManager');
 
 // --- Unit Tests for registerUser function ---
@@ -27,6 +26,7 @@ describe('registerUser function', () => {
 
         // Act: Attempt to register same user again
         const result = registerUser(username, password);
+
         expect(result).toBe(false); // Assert: Should fail
         expect(getUserCount()).toBe(1); // Assert: User count should remain 1
     });
@@ -52,22 +52,24 @@ describe('registerUser function', () => {
 
 // --- Unit Tests for loginUser function ---
 describe('loginUser function', () => {
-    beforeAll(() => {
-        clearUsers();
-        registerUser("validuser", "correctpass");
-    });
-
     // Arrange
     const username = "validuser";
     const password = "correctpass";
 
+    beforeAll(() => {
+        clearUsers();
+        registerUser(username, password);
+    });
+
     it('should successfully log in with correct credentials', () => {
         const result = loginUser(username, password); // Act
+
         expect(result).toBe(true); // Assert
     });
 
     it('should fail login with incorrect password', () => {
         const result = loginUser(username, "wrongpass"); // Act
+
         expect(result).toBe(false); // Assert
     });
 
@@ -85,35 +87,36 @@ describe('loginUser function', () => {
 
     it('should fail login with empty password', () => {
         // Arrange
-        const result = loginUser(username, ""); // Act
-        expect(result).toBe(false); // Assert
+        const result = loginUser(username, ""); // Act 
+        expect(result).toBe(false); // Assert 
     });
 });
 
-// describe('Integration tests for user management', () => {
-//     // Apprentices: Write tests that combine register and login here!
-//     it('should allow login after successful registration', () => {
-//         // Arrange
-//         const username = "integrationUser";
-//         const password = "integrationPass";
-//         // Act: Register
+describe('Integration tests for user management', () => {
+    // Apprentices: Write tests that combine register and login here!
+    it('should allow login after successful registration', () => {
+        // Arrange
+        const username = "integrationUser";
+        const password = "integrationPass";
+        // Act: Register
+        const registerSuccess = registerUser(username, password);
+        // Act: Attempt to login
+        const loginSuccess = loginUser(username, password);
+        // Assert
+        expect(registerSuccess).toBe(true);
+        expect(loginSuccess).toBe(true);
+        expect(getUserCount()).toBe(1);
+    });
 
-//         // Act: Attempt to login
-        
+    // - Register a user, then try to log in with incorrect credentials
+    it('should fail login after registration with incorrect password', () => {
+        // Arrange
+        const username = "badLoginUser";
+        const password = "badLoginPass";
+        // Act: Register
 
-//         // Assert
-       
-//     });
+        // Act: Attempt to login with wrong password
 
-//     // - Register a user, then try to log in with incorrect credentials
-//     it('should fail login after registration with incorrect password', () => {
-//         // Arrange
-//         const username = "badLoginUser";
-//         const password = "badLoginPass";
-//         // Act: Register
-
-//         // Act: Attempt to login with wrong password
-
-//         // Assert
-//     });
-// });
+        // Assert
+    });
+});
